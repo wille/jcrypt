@@ -12,20 +12,21 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import com.redpois0n.Util;
+import com.redpois0n.crypto.Crypto;
 
 @SuppressWarnings("serial")
 public class Panel3Encryption extends PanelBase {
 	
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JComboBox<String> cbKey;
+	private JTextField cbKey;
 	private JRadioButton rdbtnEncryptResourcesAnd;
 	private JRadioButton rdbtnEncryptClassesresources;
 	private JCheckBox chckbxDefaultKey;
@@ -45,7 +46,7 @@ public class Panel3Encryption extends PanelBase {
 		
 		JLabel lblEncryptionKey = new JLabel("Encryption key");
 		
-		cbKey = new JComboBox<String>();
+		cbKey = new JTextField();
 		cbKey.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				update();	
@@ -58,7 +59,7 @@ public class Panel3Encryption extends PanelBase {
 			}
 		});
 		cbKey.setEditable(true);
-		cbKey.setSelectedItem(Util.randomString(24));
+		cbKey.setText(Util.randomString(Crypto.KEY_LENGTH));
 		
 		chckbxDefaultKey = new JCheckBox("Default key");
 		chckbxDefaultKey.addActionListener(new ActionListener() {
@@ -115,7 +116,7 @@ public class Panel3Encryption extends PanelBase {
 		JButton button_2 = new JButton("");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbKey.setSelectedItem(Util.randomString(24));
+				cbKey.setText(Util.randomString(Crypto.KEY_LENGTH));
 				update();
 			}
 		});
@@ -139,7 +140,7 @@ public class Panel3Encryption extends PanelBase {
 	}
 
 	public String getKey() {
-		return chckbxDefaultKey.isSelected() ? null : cbKey.getSelectedItem().toString().trim();
+		return chckbxDefaultKey.isSelected() ? null : cbKey.getText().trim();
 	}
 
 	public boolean shouldEncryptAll() {
@@ -147,9 +148,9 @@ public class Panel3Encryption extends PanelBase {
 	}
 	
 	public void update() {
-		String text = cbKey.getSelectedItem().toString();
+		String text = cbKey.getText();
 		
-		if (text.length() == 24) {
+		if (text.length() == Crypto.KEY_LENGTH) {
 			cbKey.setForeground(Color.green);
 		} else {
 			cbKey.setForeground(Color.red);
