@@ -1,3 +1,4 @@
+package jcrypt;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
