@@ -96,7 +96,6 @@ public class Build {
 		out.putNextEntry(new ZipEntry(ENCRYPTED_ARCHIVE));
 		FileInputStream fis = new FileInputStream(temp);
 		Util.copy(fis, out);
-		fis.close();
 		out.closeEntry();
 		
 		out.close();

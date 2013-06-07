@@ -5,6 +5,7 @@ import java.io.Reader;
 import java.lang.reflect.Method;
 import java.security.Key;
 import java.util.jar.JarInputStream;
+import java.util.zip.GZIPInputStream;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -20,7 +21,13 @@ public class Decrypter {
 
 	public static void main(String[] args) throws Exception {
 		String[] config = decode(readString(Decrypter.class.getResourceAsStream(CONFIG_ENTRY))).trim().split("\n");
-		String[] excludedClasses = decode(readString(Decrypter.class.getResourceAsStream(EXCLUDE))).trim().split("\n");
+		
+		String[] excludedClasses = null;
+		try {
+			excludedClasses = decode(readString(Decrypter.class.getResourceAsStream(EXCLUDE))).trim().split("\n");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		boolean cryptAll = Boolean.parseBoolean(config[0]);
 		String mainClass = config[1];

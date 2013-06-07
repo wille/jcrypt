@@ -76,6 +76,10 @@ public class EncryptedClassLoader extends ClassLoader {
 	}
 
 	public boolean isExcluded(String clazz) {
+		if (excludedClasses == null) {
+			return false;
+		}
+		
 		for (String str : excludedClasses) {
 			if (str.equalsIgnoreCase(clazz)) {
 				return true;
