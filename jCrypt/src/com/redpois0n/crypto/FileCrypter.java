@@ -19,9 +19,9 @@ public class FileCrypter {
 		InputStream in = new FileInputStream(input);
 		OutputStream out = new FileOutputStream(output);
 
-		Cipher dcipher = Cipher.getInstance("DESede");
+		Cipher dcipher = Cipher.getInstance("AES");
 
-		dcipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), "DESede"));
+		dcipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes("UTF-8"), "AES"));
 
 		in = new CipherInputStream(in, dcipher);
 
@@ -40,9 +40,9 @@ public class FileCrypter {
 		InputStream in = new FileInputStream(input);
 		OutputStream out = new FileOutputStream(output);
 
-		Cipher ecipher = Cipher.getInstance("DESede");
+		Cipher ecipher = Cipher.getInstance("AES");
 
-		ecipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes(), "DESede"));
+		ecipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes("UTF-8"), "AES"));
 
 		out = new CipherOutputStream(out, ecipher);
 

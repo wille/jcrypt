@@ -16,7 +16,7 @@ public class Decrypter {
 	public static final String ENCRYPTED_ARCHIVE = "/jar.dat";
 	public static final String CONFIG_ENTRY = "/c.dat";
 	public static final String EXCLUDE = "/excl.dat";
-	public static final String DEFAULT_KEY = "111111111111111111111111";
+	public static final String DEFAULT_KEY = "1111111111111111";
 
 	public static void main(String[] args) throws Exception {
 		String[] config = decode(readString(Decrypter.class.getResourceAsStream(CONFIG_ENTRY))).trim().split("\n");
@@ -31,13 +31,13 @@ public class Decrypter {
 		
 		InputStream resource = Decrypter.class.getResourceAsStream(ENCRYPTED_ARCHIVE);
 		
-		Cipher cipher = Cipher.getInstance("DESede");
+		Cipher cipher = Cipher.getInstance("AES");
 
-		Key key = new SecretKeySpec(skey != null ? skey.getBytes("UTF-8") : DEFAULT_KEY.getBytes("UTF-8"), "DESede");
+		Key key = new SecretKeySpec(skey != null ? skey.getBytes("UTF-8") : DEFAULT_KEY.getBytes("UTF-8"), "AES");
 		cipher.init(Cipher.DECRYPT_MODE, key);
 		
 		JarInputStream jarInputStream = new JarInputStream(new CipherInputStream(resource, cipher));
-		JcryptClassLoader classLoader = new JcryptClassLoader(Decrypter.class.getClassLoader(), jarInputStream, cryptAll, excludedClasses);
+		EncryptedClassLoader classLoader = new EncryptedClassLoader(Decrypter.class.getClassLoader(), jarInputStream, cryptAll, excludedClasses);
 		
 		Class<?> classToLoad = classLoader.loadClass(mainClass);
 		Method method = classToLoad.getMethod("main", new Class[] { String[].class });

@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-public class JcryptClassLoader extends ClassLoader {
+public class EncryptedClassLoader extends ClassLoader {
 
 	private final HashMap<String, byte[]> classes = new HashMap<String, byte[]>();
 	private final HashMap<String, byte[]> others = new HashMap<String, byte[]>();
 	private final boolean encryptResources;
 	private final String[] excludedClasses;
 
-	public JcryptClassLoader(ClassLoader parent, JarInputStream stream, boolean encryptResources, String[] excludedClasses) {
+	public EncryptedClassLoader(ClassLoader parent, JarInputStream stream, boolean encryptResources, String[] excludedClasses) {
 		super(parent);
 		this.loadResources(stream);
 		this.encryptResources = encryptResources;
@@ -112,8 +112,8 @@ public class JcryptClassLoader extends ClassLoader {
 	}
 
 	public boolean equals(Object o) {
-		if (o instanceof JcryptClassLoader) {
-			return ((JcryptClassLoader) o).getParent() == getParent();
+		if (o instanceof EncryptedClassLoader) {
+			return ((EncryptedClassLoader) o).getParent() == getParent();
 		}
 		return false;
 	}
