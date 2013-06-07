@@ -51,6 +51,12 @@ public class Decrypter {
 		return fileName.substring(0, fileName.length() - 6).replace('/', '.');
 	}
 	
+	/**
+	 * Reads string from input stream
+	 * @param is
+	 * @return
+	 * @throws Exception
+	 */
 	public static String readString(InputStream is) throws Exception {
 		char[] buf = new char[1024];
 		Reader r = new InputStreamReader(is, "UTF-8");
@@ -63,6 +69,12 @@ public class Decrypter {
 		return s.toString();
 	}
 	
+	/**
+	 * Apache common codec
+	 * @param s
+	 * @return
+	 * @throws Exception
+	 */
 	public static String decode(String s) throws Exception {
 		char[] data = s.toCharArray();
 		int len = data.length;
@@ -85,6 +97,13 @@ public class Decrypter {
 		return new String(out);
 	}
 
+	/**
+	 * Apache commons codec
+	 * @param ch
+	 * @param index
+	 * @return
+	 * @throws Exception
+	 */
 	private static int toDigit(char ch, int index) throws Exception {
 		int digit = Character.digit(ch, 16);
 		if (digit == -1) {
