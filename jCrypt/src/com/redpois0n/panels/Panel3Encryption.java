@@ -151,9 +151,9 @@ public class Panel3Encryption extends PanelBase {
 		String text = cbKey.getText();
 		
 		if (text.length() == Crypto.KEY_LENGTH) {
-			cbKey.setForeground(Color.green);
+			cbKey.setBackground(Color.green);
 		} else {
-			cbKey.setForeground(Color.red);
+			cbKey.setBackground(Color.red);
 		}
 	}
 }
