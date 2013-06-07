@@ -13,9 +13,17 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class FileCrypter {
 
+	/**
+	 * Encrypts file to file with the specified key
+	 * 
+	 * @param input
+	 * @param output
+	 * @param key
+	 * @throws Exception
+	 */
 	public static void decrypt(File input, File output, String key) throws Exception {
 		byte[] buffer = new byte[1024];
-		
+
 		InputStream in = new FileInputStream(input);
 		OutputStream out = new FileOutputStream(output);
 
@@ -29,14 +37,22 @@ public class FileCrypter {
 		while ((numRead = in.read(buffer)) != -1) {
 			out.write(buffer, 0, numRead);
 		}
-		
+
 		in.close();
 		out.close();
 	}
 
+	/**
+	 * Decrypts file to file with the specified key
+	 * 
+	 * @param input
+	 * @param output
+	 * @param key
+	 * @throws Exception
+	 */
 	public static void encrypt(File input, File output, String key) throws Exception {
-		byte[] buffer= new byte[1024];
-		
+		byte[] buffer = new byte[1024];
+
 		InputStream in = new FileInputStream(input);
 		OutputStream out = new FileOutputStream(output);
 
@@ -50,7 +66,7 @@ public class FileCrypter {
 		while ((numRead = in.read(buffer)) != -1) {
 			out.write(buffer, 0, numRead);
 		}
-		
+
 		in.close();
 		out.close();
 	}

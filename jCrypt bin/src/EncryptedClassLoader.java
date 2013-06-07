@@ -22,6 +22,7 @@ public class EncryptedClassLoader extends ClassLoader {
 		this.excludedClasses = excludedClasses;
 	}
 
+	@Override
 	public InputStream getResourceAsStream(String name) {
 		if (encryptResources) {
 			byte[] buffer = others.get(name);
@@ -32,6 +33,7 @@ public class EncryptedClassLoader extends ClassLoader {
 		return super.getResourceAsStream(name);
 	}
 
+	@Override
 	public URL getResource(String name) {
 		if (encryptResources) {
 			throw null;
@@ -40,6 +42,7 @@ public class EncryptedClassLoader extends ClassLoader {
 		}
 	}
 
+	@Override
 	protected Enumeration<URL> findResources(String name) throws IOException {
 		if (encryptResources) {
 			throw new IOException("Cant get URL from resource in memory");
@@ -48,10 +51,12 @@ public class EncryptedClassLoader extends ClassLoader {
 		}
 	}
 
+	@Override
 	public int hashCode() {
 		return getParent().hashCode();
 	}
 
+	@Override
 	public Class<?> findClass(String name) throws ClassNotFoundException {
 		byte[] data = getClassData(name);
 		
@@ -111,6 +116,7 @@ public class EncryptedClassLoader extends ClassLoader {
 		}
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		if (o instanceof EncryptedClassLoader) {
 			return ((EncryptedClassLoader) o).getParent() == getParent();

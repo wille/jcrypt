@@ -16,7 +16,7 @@ public class Build {
 	
 	public static final String ENCRYPTED_ARCHIVE = "jar.dat";
 	public static final String CONFIG_ENTRY = "c.dat";
-	public static final String DEFAULT_KEY = "111111111111111111111111";
+	public static final String DEFAULT_KEY = "1111111111111111";
 	public static final String EXCLUDE = "excl.dat";
 	
 	public static boolean contains(String[] array, String search) {
@@ -66,14 +66,16 @@ public class Build {
 		out.write(Hex.encode(c).getBytes("UTF-8"));
 		out.closeEntry();
 		
-		ZipEntry excludedEntry = new ZipEntry(EXCLUDE);
-		out.putNextEntry(excludedEntry);
-		c = "";
-		for (String str : excluded) {
-			c += str + "\n";
+		if (excluded.length > 0) {
+			ZipEntry excludedEntry = new ZipEntry(EXCLUDE);
+			out.putNextEntry(excludedEntry);
+			c = "";
+			for (String str : excluded) {
+				c += str + "\n";
+			}
+			out.write(Hex.encode(c).getBytes("UTF-8"));
+			out.closeEntry();
 		}
-		out.write(Hex.encode(c).getBytes("UTF-8"));
-		out.closeEntry();
 		
 		ZipFile zip = new ZipFile("Bin.jar");
 		
