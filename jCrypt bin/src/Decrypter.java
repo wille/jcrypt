@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.lang.reflect.Method;
 import java.security.Key;
 import java.util.jar.JarInputStream;
-import java.util.zip.GZIPInputStream;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
