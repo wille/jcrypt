@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -62,7 +63,8 @@ public class Build {
 		}
 		zip.close();
 				
-		byte[] iv = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+		byte[] iv = new byte[16];
+		new Random().nextBytes(iv);
 		
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
 		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(iv));
@@ -80,7 +82,7 @@ public class Build {
 		
 		byte[] config = new byte[key.length + iv.length + 1 + bMainClass.length];
 		System.arraycopy(key, 0, config, 0, key.length);
-		System.arraycopy(iv, 0, config, 17, iv.length);
+		System.arraycopy(iv, 0, config, 16, iv.length);
 		config[32] = (byte) (encall ? 1 : 0);
 		System.arraycopy(bMainClass, 0, config, 33, bMainClass.length);
 		

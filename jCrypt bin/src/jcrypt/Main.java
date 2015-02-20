@@ -35,7 +35,7 @@ public class Main {
 		String mainClass = new String(bMainClass);
 
 		zip.close();
-
+		
 		InputStream resource = Main.class.getResourceAsStream(ENCRYPTED_ARCHIVE);
 
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
