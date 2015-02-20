@@ -24,9 +24,14 @@ public class Main {
 
 		byte[] key = new byte[16];
 		System.arraycopy(extra, 0, key, 0, 16);
-		boolean cryptAll = extra[16] == 1;
-		byte[] bMainClass = new byte[extra.length - 17];
-		System.arraycopy(extra, 17, bMainClass, 0, extra.length - 17);
+
+		byte[] iv = new byte[16];
+		System.arraycopy(extra, 16, iv, 0, 16);
+		
+		boolean cryptAll = extra[32] == 1;
+		
+		byte[] bMainClass = new byte[extra.length - 33];
+		System.arraycopy(extra, 33, bMainClass, 0, extra.length - 33);
 		String mainClass = new String(bMainClass);
 
 		zip.close();
@@ -36,7 +41,7 @@ public class Main {
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
 
 		Key sks = new SecretKeySpec(key, "AES");
-		cipher.init(Cipher.DECRYPT_MODE, sks, new IvParameterSpec(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }));
+		cipher.init(Cipher.DECRYPT_MODE, sks, new IvParameterSpec(iv));
 
 		JarInputStream jarInputStream = new JarInputStream(new CipherInputStream(resource, cipher));
 		EncryptedClassLoader classLoader = new EncryptedClassLoader(Main.class.getClassLoader(), jarInputStream, cryptAll);

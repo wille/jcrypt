@@ -62,8 +62,10 @@ public class Build {
 		}
 		zip.close();
 				
+		byte[] iv = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+		
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
-		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }));
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(iv));
 		
 		FileInputStream is = new FileInputStream(input);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,10 +78,11 @@ public class Build {
 		
 		byte[] bMainClass = mainclass.getBytes("UTF-8");
 		
-		byte[] config = new byte[key.length + 1 + bMainClass.length];
+		byte[] config = new byte[key.length + iv.length + 1 + bMainClass.length];
 		System.arraycopy(key, 0, config, 0, key.length);
-		config[16] = (byte) (encall ? 1 : 0);
-		System.arraycopy(bMainClass, 0, config, 17, bMainClass.length);
+		System.arraycopy(iv, 0, config, 17, iv.length);
+		config[32] = (byte) (encall ? 1 : 0);
+		System.arraycopy(bMainClass, 0, config, 33, bMainClass.length);
 		
 		ZipEntry entry = new ZipEntry(ENCRYPTED_ARCHIVE);
 		out.putNextEntry(entry);
