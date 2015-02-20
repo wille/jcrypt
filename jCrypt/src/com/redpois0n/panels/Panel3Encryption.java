@@ -58,7 +58,6 @@ public class Panel3Encryption extends PanelBase {
 			}
 		});
 		cbKey.setEditable(true);
-		cbKey.setText(Utils.randomString(Crypto.KEY_LENGTH));
 		
 		chckbxDefaultKey = new JCheckBox("Default key");
 		chckbxDefaultKey.addActionListener(new ActionListener() {
@@ -115,7 +114,6 @@ public class Panel3Encryption extends PanelBase {
 		JButton button_2 = new JButton("");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbKey.setText(Utils.randomString(Crypto.KEY_LENGTH));
 				update();
 			}
 		});
@@ -148,11 +146,5 @@ public class Panel3Encryption extends PanelBase {
 	
 	public void update() {
 		String text = cbKey.getText();
-		
-		if (text.length() == Crypto.KEY_LENGTH) {
-			cbKey.setBackground(Color.green);
-		} else {
-			cbKey.setBackground(Color.red);
-		}
 	}
 }

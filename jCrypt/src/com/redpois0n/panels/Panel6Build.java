@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URI;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -112,10 +114,14 @@ public class Panel6Build extends PanelBase {
 			File input = p1.getFile();
 			File output = p5.getFile();
 			String mainclass = p2.getMainClass();
-			String key = p3.getKey();
 			boolean encall = p3.shouldEncryptAll();
 			
-			Build.build(input, output, mainclass, key, encall, p4.getExcluded());
+			KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+	        keyGen.init(128);
+	        SecretKey secretKey = keyGen.generateKey();
+	        byte[] key = secretKey.getEncoded();
+			
+			Build.build(input, output, mainclass, key, encall);
 			
 			lblFile.setText("File \"" + output.getAbsolutePath() + "\" successfully created.");
 			
