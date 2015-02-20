@@ -14,11 +14,11 @@ import com.redpois0n.Utils;
 
 
 @SuppressWarnings("serial")
-public class Panel5Create extends PanelBase {
+public class Panel4Create extends PanelBase {
 	
 	private JComboBox<Object> cbPath;
 
-	public Panel5Create() {
+	public Panel4Create() {
 		super("Create .jar file");
 		
 		JLabel lblFilePathOf = new JLabel("File path of .jar to export");

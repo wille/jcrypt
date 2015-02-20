@@ -23,12 +23,12 @@ import com.redpois0n.Build;
 import com.redpois0n.Frame;
 
 @SuppressWarnings("serial")
-public class Panel6Build extends PanelBase {
+public class Panel5Build extends PanelBase {
 	
 	private JLabel lblFile;
 	private File output;
 
-	public Panel6Build() {
+	public Panel5Build() {
 		super("Finished");
 		
 		lblFile = new JLabel("Loading...");
@@ -62,7 +62,7 @@ public class Panel6Build extends PanelBase {
 		JLabel lblPointOfOrigin = new JLabel("Point of origin:");
 		
 		JLabel lblSweden = new JLabel("Sweden");
-		lblSweden.setIcon(new ImageIcon(Panel6Build.class.getResource("/com/redpois0n/icons/se.png")));
+		lblSweden.setIcon(new ImageIcon(Panel5Build.class.getResource("/com/redpois0n/icons/se.png")));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -108,7 +108,7 @@ public class Panel6Build extends PanelBase {
 			Panel1SelectJar p1 = (Panel1SelectJar) Frame.panels.get(0);
 			Panel2MainClass p2 = (Panel2MainClass) Frame.panels.get(1);
 			Panel3Encryption p3 = (Panel3Encryption) Frame.panels.get(2);
-			Panel5Create p5 = (Panel5Create) Frame.panels.get(4);
+			Panel4Create p5 = (Panel4Create) Frame.panels.get(3);
 			
 			File input = p1.getFile();
 			File output = p5.getFile();
