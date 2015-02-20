@@ -1,34 +1,24 @@
 package com.redpois0n.panels;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import com.redpois0n.Utils;
 
 @SuppressWarnings("serial")
 public class Panel3Encryption extends PanelBase {
 	
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField cbKey;
 	private JRadioButton rdbtnEncryptResourcesAnd;
 	private JRadioButton rdbtnEncryptClassesresources;
-	private JCheckBox chckbxDefaultKey;
 
 	public Panel3Encryption() {
 		super("Encryption");
@@ -42,32 +32,6 @@ public class Panel3Encryption extends PanelBase {
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		
-		JLabel lblEncryptionKey = new JLabel("Encryption key");
-		
-		cbKey = new JTextField();
-		cbKey.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				update();	
-			}
-		});
-		cbKey.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				update();
-			}
-		});
-		cbKey.setEditable(true);
-		
-		chckbxDefaultKey = new JCheckBox("Default key");
-		chckbxDefaultKey.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cbKey.setEnabled(!chckbxDefaultKey.isSelected());
-			}
-		});
-		
-		JToolBar toolBar_1 = new JToolBar();
-		toolBar_1.setFloatable(false);
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -77,18 +41,9 @@ public class Panel3Encryption extends PanelBase {
 						.addComponent(rdbtnEncryptClassesresources)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEncryptionKey)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(chckbxDefaultKey)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(toolBar_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addComponent(rdbtnEncryptResourcesAnd, Alignment.LEADING))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addComponent(cbKey, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(rdbtnEncryptResourcesAnd)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(191, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -100,26 +55,8 @@ public class Panel3Encryption extends PanelBase {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(rdbtnEncryptResourcesAnd)
 						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblEncryptionKey)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(cbKey, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(toolBar_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(chckbxDefaultKey, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(26, Short.MAX_VALUE))
+					.addContainerGap(113, Short.MAX_VALUE))
 		);
-		
-		JButton button_2 = new JButton("");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				update();
-			}
-		});
-		button_2.setIcon(new ImageIcon(Panel3Encryption.class.getResource("/com/redpois0n/icons/update.png")));
-		button_2.setToolTipText("Random");
-		toolBar_1.add(button_2);
 		
 		JButton button = new JButton("");
 		button.addActionListener(new ActionListener() {
@@ -132,19 +69,9 @@ public class Panel3Encryption extends PanelBase {
 		button.setIcon(new ImageIcon(Panel3Encryption.class.getResource("/com/redpois0n/icons/exclamation-circle-frame.png")));
 		toolBar.add(button);
 		setLayout(groupLayout);
-		
-		update();
-	}
-
-	public String getKey() {
-		return chckbxDefaultKey.isSelected() ? null : cbKey.getText().trim();
 	}
 
 	public boolean shouldEncryptAll() {
 		return rdbtnEncryptResourcesAnd.isSelected();
-	}
-	
-	public void update() {
-		String text = cbKey.getText();
 	}
 }

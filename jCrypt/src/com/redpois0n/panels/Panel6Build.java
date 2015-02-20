@@ -108,7 +108,6 @@ public class Panel6Build extends PanelBase {
 			Panel1SelectJar p1 = (Panel1SelectJar) Frame.panels.get(0);
 			Panel2MainClass p2 = (Panel2MainClass) Frame.panels.get(1);
 			Panel3Encryption p3 = (Panel3Encryption) Frame.panels.get(2);
-			Panel4Exclude p4 = (Panel4Exclude) Frame.panels.get(3);
 			Panel5Create p5 = (Panel5Create) Frame.panels.get(4);
 			
 			File input = p1.getFile();

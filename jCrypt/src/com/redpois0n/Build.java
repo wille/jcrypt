@@ -12,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Build {
@@ -60,19 +61,29 @@ public class Build {
 			in.close();
 		}
 		zip.close();
+				
+		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }));
 		
-		
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
 		FileInputStream is = new FileInputStream(input);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CipherOutputStream cos = new CipherOutputStream(baos, cipher);
+		
 		Utils.copy(is, cos);
+		
+		is.close();
 		cos.close();
+		
+		byte[] bMainClass = mainclass.getBytes("UTF-8");
+		
+		byte[] config = new byte[key.length + 1 + bMainClass.length];
+		System.arraycopy(key, 0, config, 0, key.length);
+		config[16] = (byte) (encall ? 1 : 0);
+		System.arraycopy(bMainClass, 0, config, 17, bMainClass.length);
 		
 		ZipEntry entry = new ZipEntry(ENCRYPTED_ARCHIVE);
 		out.putNextEntry(entry);
-		entry.setExtra(key);
+		entry.setExtra(config);
 		out.write(baos.toByteArray());
 		out.closeEntry();	
 		

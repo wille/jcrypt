@@ -14,13 +14,11 @@ public class EncryptedClassLoader extends ClassLoader {
 	private final HashMap<String, byte[]> classes = new HashMap<String, byte[]>();
 	private final HashMap<String, byte[]> others = new HashMap<String, byte[]>();
 	private final boolean encryptResources;
-	private final String[] excludedClasses;
 
-	public EncryptedClassLoader(ClassLoader parent, JarInputStream stream, boolean encryptResources, String[] excludedClasses) {
+	public EncryptedClassLoader(ClassLoader parent, JarInputStream stream, boolean encryptResources) {
 		super(parent);
 		this.loadResources(stream);
 		this.encryptResources = encryptResources;
-		this.excludedClasses = excludedClasses;
 	}
 
 	@Override
@@ -61,33 +59,11 @@ public class EncryptedClassLoader extends ClassLoader {
 	public Class<?> findClass(String name) throws ClassNotFoundException {
 		byte[] data = getClassData(name);
 		
-		if (isExcluded(name)) {
-			try {
-				data = Decrypter.fromInputStream(Decrypter.class.getResourceAsStream("/" + name.replace(".", "/") + ".class"), -1);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-			return defineClass(name, data, 0, data.length, Decrypter.class.getProtectionDomain());
-		} else if (data != null) {
-			return defineClass(name, data, 0, data.length, Decrypter.class.getProtectionDomain());
+		if (data != null) {
+			return defineClass(name, data, 0, data.length, Main.class.getProtectionDomain());
 		} else {
 			throw new ClassNotFoundException(name);
 		}
-	}
-
-	public boolean isExcluded(String clazz) {
-		if (excludedClasses == null) {
-			return false;
-		}
-		
-		for (String str : excludedClasses) {
-			if (str.equalsIgnoreCase(clazz)) {
-				return true;
-			}
-		}
-		
-		return false;
 	}
 
 	public void loadResources(JarInputStream stream) {
@@ -98,9 +74,7 @@ public class EncryptedClassLoader extends ClassLoader {
 		try {
 			JarEntry entry = null;
 			while ((entry = stream.getNextJarEntry()) != null) {
-				int size = (int) entry.getSize();
-
-				ByteArrayOutputStream out = new ByteArrayOutputStream(size == -1 ? 1024 : size);
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 				while ((count = stream.read(buffer)) != -1) {
 					out.write(buffer, 0, count);
@@ -111,7 +85,7 @@ public class EncryptedClassLoader extends ClassLoader {
 				byte[] array = out.toByteArray();
 				
 				if (entry.getName().toLowerCase().endsWith(".class")) {
-					classes.put(Decrypter.getClassName(entry.getName()), array);
+					classes.put(Utils.getClassName(entry.getName()), array);
 				} else if (encryptResources) {
 					others.put(entry.getName(), array);
 				}

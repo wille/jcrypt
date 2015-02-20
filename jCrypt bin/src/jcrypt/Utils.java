@@ -8,4 +8,8 @@ public class Utils {
 		return new File(Utils.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("file:", ""));
 	}
 
+	public static String getClassName(String fileName) {
+		return fileName.substring(0, fileName.length() - 6).replace('/', '.');
+	}
+
 }
