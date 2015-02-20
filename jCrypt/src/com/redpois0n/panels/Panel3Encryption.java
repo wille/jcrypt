@@ -19,8 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.redpois0n.Util;
-import com.redpois0n.crypto.Crypto;
+import com.redpois0n.Utils;
 
 @SuppressWarnings("serial")
 public class Panel3Encryption extends PanelBase {
@@ -59,7 +58,7 @@ public class Panel3Encryption extends PanelBase {
 			}
 		});
 		cbKey.setEditable(true);
-		cbKey.setText(Util.randomString(Crypto.KEY_LENGTH));
+		cbKey.setText(Utils.randomString(Crypto.KEY_LENGTH));
 		
 		chckbxDefaultKey = new JCheckBox("Default key");
 		chckbxDefaultKey.addActionListener(new ActionListener() {
@@ -116,7 +115,7 @@ public class Panel3Encryption extends PanelBase {
 		JButton button_2 = new JButton("");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cbKey.setText(Util.randomString(Crypto.KEY_LENGTH));
+				cbKey.setText(Utils.randomString(Crypto.KEY_LENGTH));
 				update();
 			}
 		});

@@ -1,5 +1,6 @@
 package com.redpois0n;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,15 +10,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import com.redpois0n.crypto.FileCrypter;
-import com.redpois0n.crypto.Hex;
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Build {
 	
 	public static final String ENCRYPTED_ARCHIVE = "jar.dat";
-	public static final String CONFIG_ENTRY = "c.dat";
-	public static final String DEFAULT_KEY = "1111111111111111";
-	public static final String EXCLUDE = "excl.dat";
 	
 	public static boolean contains(String[] array, String search) {
 		for (String str : array) {
@@ -29,11 +28,7 @@ public class Build {
 		return false;
 	}
 
-	public static void build(File input, File output, String mainclass, String key, boolean encall, String[] excluded) throws Exception {
-		File temp = File.createTempFile("jcrypt", ".jar");
-		
-		FileCrypter.encrypt(input, temp, key != null ? key : DEFAULT_KEY);
-		
+	public static void build(File input, File output, String mainclass, byte[] key, boolean encall) throws Exception {				
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(output));
 		
 		if (!encall) {
@@ -43,9 +38,9 @@ public class Build {
 			
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
-				if (contains(excluded, entry.getName().replace("/", ".").replace(".class", "")) || !entry.getName().toLowerCase().contains("meta-inf") && !entry.getName().toLowerCase().endsWith(".class")) {
+				if (!entry.getName().toLowerCase().contains("meta-inf") && !entry.getName().toLowerCase().endsWith(".class")) {
 					out.putNextEntry(entry);
-					Util.copy(inp.getInputStream(entry), out);
+					Utils.copy(inp.getInputStream(entry), out);
 					out.closeEntry();
 				}
 			}
@@ -53,54 +48,35 @@ public class Build {
 			inp.close();
 		}
 		
-		ZipEntry config = new ZipEntry(CONFIG_ENTRY);	
-		out.putNextEntry(config);
-		String c = "";
-		c += encall + "\n";
-		c += mainclass + "\n";	
-		
-		if (key != null) {
-			c += key;
-		}
-		
-		out.write(Hex.encode(c).getBytes("UTF-8"));
-		out.closeEntry();
-		
-		if (excluded.length > 0) {
-			ZipEntry excludedEntry = new ZipEntry(EXCLUDE);
-			out.putNextEntry(excludedEntry);
-			c = "";
-			for (String str : excluded) {
-				c += str + "\n";
-			}
-			out.write(Hex.encode(c).getBytes("UTF-8"));
-			out.closeEntry();
-		}
-		
-		ZipFile zip = new ZipFile("Bin.jar");
-		
-		Enumeration<? extends ZipEntry> entries = zip.entries();
-		
+		ZipFile zip = new ZipFile("Bin.jar");	
+		Enumeration<? extends ZipEntry> entries = zip.entries();	
 		while (entries.hasMoreElements()) {
 			ZipEntry entry = entries.nextElement();
 
 			InputStream in = zip.getInputStream(entry);
 			out.putNextEntry(entry);
-			Util.copy(in, out);
+			Utils.copy(in, out);
 			out.closeEntry();
 			in.close();
 		}
-		
 		zip.close();
 		
-		out.putNextEntry(new ZipEntry(ENCRYPTED_ARCHIVE));
-		FileInputStream fis = new FileInputStream(temp);
-		Util.copy(fis, out);
-		out.closeEntry();
 		
-		out.close();
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
+		FileInputStream is = new FileInputStream(input);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		CipherOutputStream cos = new CipherOutputStream(baos, cipher);
+		Utils.copy(is, cos);
+		cos.close();
 		
-		temp.delete();
+		ZipEntry entry = new ZipEntry(ENCRYPTED_ARCHIVE);
+		out.putNextEntry(entry);
+		entry.setExtra(key);
+		out.write(baos.toByteArray());
+		out.closeEntry();	
+		
+		out.close();	
 	}
 
 }

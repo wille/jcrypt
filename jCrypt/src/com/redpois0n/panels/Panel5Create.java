@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.redpois0n.Util;
+import com.redpois0n.Utils;
 
 
 @SuppressWarnings("serial")
@@ -29,7 +29,7 @@ public class Panel5Create extends PanelBase {
 		JButton btnBrowse = new JButton("Browse");
 		btnBrowse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File file = Util.showSaveDialog();
+				File file = Utils.showSaveDialog();
 				if (file != null) {
 					cbPath.setSelectedItem(file.getAbsolutePath());
 				}

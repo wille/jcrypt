@@ -25,7 +25,7 @@ import com.redpois0n.panels.Panel1SelectJar;
 @SuppressWarnings("serial")
 public class DialogSelectClass extends JDialog {
 	
-	public static final ImageIcon CLASS_ICON = Util.getIcon("java_class");
+	public static final ImageIcon CLASS_ICON = Utils.getIcon("java_class");
 	
 	private JTree tree;
 

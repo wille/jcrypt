@@ -11,7 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import com.redpois0n.Util;
+import com.redpois0n.Utils;
 
 
 @SuppressWarnings("serial")
@@ -35,7 +35,7 @@ public class Panel1SelectJar extends PanelBase {
 		JButton btnBrowse = new JButton("Browse");
 		btnBrowse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				File file = Util.showOpenDialog();
+				File file = Utils.showOpenDialog();
 				if (file != null) {
 					cbPath.setSelectedItem(file.getAbsolutePath());					
 				}

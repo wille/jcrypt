@@ -8,7 +8,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
-public class Util {
+public class Utils {
 
 	public static ImageIcon getIcon(String name) {
 		return new ImageIcon(Main.class.getResource("/com/redpois0n/icons/" + name + ".png"));
