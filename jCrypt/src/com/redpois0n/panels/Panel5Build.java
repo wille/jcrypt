@@ -13,7 +13,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -58,14 +57,9 @@ public class Panel5Build extends PanelBase {
 			}
 		});
 		lblHttpredpoisncom.setForeground(Color.BLUE);
-		
-		JLabel lblPointOfOrigin = new JLabel("Point of origin:");
-		
-		JLabel lblSweden = new JLabel("Sweden");
-		lblSweden.setIcon(new ImageIcon(Panel5Build.class.getResource("/com/redpois0n/icons/se.png")));
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -77,12 +71,6 @@ public class Panel5Build extends PanelBase {
 							.addContainerGap(332, Short.MAX_VALUE)
 							.addComponent(lblHttpredpoisncom)))
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addContainerGap(295, Short.MAX_VALUE)
-					.addComponent(lblPointOfOrigin)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblSweden)
-					.addGap(15))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -91,11 +79,7 @@ public class Panel5Build extends PanelBase {
 					.addComponent(lblFile)
 					.addGap(18)
 					.addComponent(btnGoToFolder)
-					.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSweden)
-						.addComponent(lblPointOfOrigin))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
 					.addComponent(lblHttpredpoisncom)
 					.addContainerGap())
 		);
