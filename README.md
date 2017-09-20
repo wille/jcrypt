@@ -12,9 +12,13 @@ When ran, it will load the information in the extra field, decrypt and load the 
 Encrypt(K,I): Encrypt using symmetric key
 
 P: Target JAR
+
 K: Symmetric key
+
 I: IV for K
+
 C: Resource encryption boolean
 
 Store P as Encrypt(K, I) in jar.dat
+
 Store K || I || C as extra header in P
