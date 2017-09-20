@@ -11,7 +11,15 @@ import java.util.jar.JarInputStream;
 
 public class EncryptedClassLoader extends ClassLoader {
 
+
+    /**
+     * Binary storage for each class loaded
+     */
 	private final HashMap<String, byte[]> classes = new HashMap<String, byte[]>();
+
+    /**
+     * Binary storage for each resource loaded
+     */
 	private final HashMap<String, byte[]> others = new HashMap<String, byte[]>();
 	private final boolean encryptResources;
 
@@ -23,20 +31,23 @@ public class EncryptedClassLoader extends ClassLoader {
 
 	@Override
 	public InputStream getResourceAsStream(String name) {
+	    // If all resources are encrypted, retrieve it from memory cache
 		if (encryptResources) {
 			byte[] buffer = others.get(name);
 			if (buffer != null) {
 				return new ByteArrayInputStream(buffer);
 			}
 		}
+
+		// If resources are not encrypted, retrieve it normally from the current JAR
 		return super.getResourceAsStream(name);
 	}
 
 	@Override
 	public URL getResource(String name) {
 		if (encryptResources) {
-			throw null;
-		} else {
+			throw null;	// Cannot get URL for encrypted resource
+        } else {
 			return super.getResource(name);
 		}
 	}
@@ -44,7 +55,7 @@ public class EncryptedClassLoader extends ClassLoader {
 	@Override
 	protected Enumeration<URL> findResources(String name) throws IOException {
 		if (encryptResources) {
-			throw new IOException("Cant get URL from resource in memory");
+			throw new IOException("Cant get URL from resource in memory"); // Cannot get URL for encrypted resource
 		} else {
 			return super.findResources(name);
 		}
@@ -66,6 +77,10 @@ public class EncryptedClassLoader extends ClassLoader {
 		}
 	}
 
+    /**
+     *  Iterate the JarInputStream (that points to current JAR)
+     *  and load the resources and classes into memory
+     */
 	public void loadResources(JarInputStream stream) {
 		byte[] buffer = new byte[1024];
 
