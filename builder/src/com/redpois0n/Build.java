@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
-import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -15,6 +14,7 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.SecureRandom;
 
 public class Build {
 	
@@ -64,7 +64,7 @@ public class Build {
 		zip.close();
 				
 		byte[] iv = new byte[16];
-		new Random().nextBytes(iv);
+		new SecureRandom().nextBytes(iv);
 		
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPADDING");
 		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"), new IvParameterSpec(iv));
